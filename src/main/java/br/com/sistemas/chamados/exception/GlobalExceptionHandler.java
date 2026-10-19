@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
         List<String> detalhes = ex.getBindingResult().getFieldErrors().stream()
             .map(e -> e.getField() + ": " + e.getDefaultMessage())
             .toList();
-        return montar(HttpStatus.BAD_REQUEST, "Dados inv?lidos", detalhes);
+        return montar(HttpStatus.BAD_REQUEST, "Dados inválidos", detalhes);
     }
 
     private ResponseEntity<ErroResposta> montar(
@@ -35,4 +35,4 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status)
             .body(new ErroResposta(LocalDateTime.now(), status.value(), erro, detalhes));
     }
-}
+}

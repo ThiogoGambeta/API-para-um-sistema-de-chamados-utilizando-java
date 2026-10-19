@@ -8,4 +8,4 @@ public record ErroResposta(
     int status,
     String erro,
     List<String> detalhes
-) { }
+) { }
