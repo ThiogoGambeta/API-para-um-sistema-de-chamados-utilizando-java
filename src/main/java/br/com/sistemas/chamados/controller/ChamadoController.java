@@ -1,7 +1,10 @@
+
 package br.com.sistemas.chamados.controller;
 
+import br.com.sistemas.chamados.dto.AtribuirTecnicoRequest;
 import br.com.sistemas.chamados.dto.ChamadoRequest;
 import br.com.sistemas.chamados.dto.ChamadoResponse;
+import br.com.sistemas.chamados.dto.StatusChamadoRequest;
 import br.com.sistemas.chamados.service.ChamadoService;
 
 import jakarta.validation.Valid;
@@ -50,6 +53,26 @@ public class ChamadoController {
             @Valid @RequestBody ChamadoRequest request) {
 
         return ResponseEntity.ok(service.atualizar(id, request));
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<ChamadoResponse> alterarStatus(
+            @PathVariable Long id,
+            @Valid @RequestBody StatusChamadoRequest request) {
+
+        return ResponseEntity.ok(
+                service.alterarStatus(id, request.status())
+        );
+    }
+
+    @PatchMapping("/{id}/tecnico")
+    public ResponseEntity<ChamadoResponse> atribuirTecnico(
+            @PathVariable Long id,
+            @Valid @RequestBody AtribuirTecnicoRequest request) {
+
+        return ResponseEntity.ok(
+                service.atribuirTecnico(id, request.tecnicoId())
+        );
     }
 
     @DeleteMapping("/{id}")
