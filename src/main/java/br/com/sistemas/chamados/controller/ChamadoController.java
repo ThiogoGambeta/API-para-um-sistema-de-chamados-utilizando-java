@@ -5,14 +5,17 @@ import br.com.sistemas.chamados.dto.AtribuirTecnicoRequest;
 import br.com.sistemas.chamados.dto.ChamadoRequest;
 import br.com.sistemas.chamados.dto.ChamadoResponse;
 import br.com.sistemas.chamados.dto.StatusChamadoRequest;
+import br.com.sistemas.chamados.entity.Prioridade;
+import br.com.sistemas.chamados.entity.StatusChamado;
 import br.com.sistemas.chamados.service.ChamadoService;
 
 import jakarta.validation.Valid;
+
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/chamados")
@@ -35,9 +38,24 @@ public class ChamadoController {
                 .body(response);
     }
 
+    // LISTAR COM FILTROS E PAGINACAO
     @GetMapping
-    public ResponseEntity<List<ChamadoResponse>> listar() {
-        return ResponseEntity.ok(service.listar());
+    public ResponseEntity<Page<ChamadoResponse>> listar(
+            @RequestParam(required = false) StatusChamado status,
+            @RequestParam(required = false) Prioridade prioridade,
+            @RequestParam(required = false) Long clienteId,
+            @RequestParam(defaultValue = "0") int pagina,
+            @RequestParam(defaultValue = "10") int tamanho) {
+
+        return ResponseEntity.ok(
+                service.listarComFiltros(
+                        status,
+                        prioridade,
+                        clienteId,
+                        pagina,
+                        tamanho
+                )
+        );
     }
 
     @GetMapping("/{id}")
@@ -77,7 +95,9 @@ public class ChamadoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluir(@PathVariable Long id) {
+
         service.excluir(id);
+
         return ResponseEntity.noContent().build();
     }
 }
