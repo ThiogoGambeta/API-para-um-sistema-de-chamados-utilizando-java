@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 public record ComentarioResponse(
     Long id,
     String texto,
+    String autor,
     LocalDateTime dataCriacao,
     Long chamadoId
 ) {}

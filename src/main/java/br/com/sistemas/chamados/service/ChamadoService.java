@@ -79,6 +79,16 @@ public class ChamadoService {
                 .toList();
     }
 
+    // LISTAR CHAMADOS DO CLIENTE, CONFIRMANDO SE ELE EXISTE
+    @Transactional(readOnly = true)
+    public List<ChamadoResponse> listarPorCliente(Long clienteId) {
+        if (!clienteRepository.existsById(clienteId)) {
+            throw new RecursoNaoEncontradoException("Cliente não encontrado com ID: " + clienteId);
+        }
+        return chamadoRepository.findByClienteIdOrderByDataAberturaDesc(clienteId)
+                .stream().map(this::toResponse).toList();
+    }
+
     // LISTAR COM FILTROS E PAGINACAO
     @Transactional(readOnly = true)
     public Page<ChamadoResponse> listarComFiltros(

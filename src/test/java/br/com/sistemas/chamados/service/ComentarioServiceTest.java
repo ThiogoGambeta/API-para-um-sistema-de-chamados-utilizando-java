@@ -48,7 +48,7 @@ class ComentarioServiceTest {
 
         var resposta = comentarioService.adicionar(
                 1L,
-                new ComentarioRequest("Técnico iniciou o atendimento")
+                new ComentarioRequest("Técnico iniciou o atendimento", "Técnico João")
         );
 
         assertEquals(
@@ -57,6 +57,7 @@ class ComentarioServiceTest {
         );
 
         assertEquals(1L, resposta.chamadoId());
+        assertEquals("Técnico João", resposta.autor());
 
         verify(comentarioRepository).save(any(Comentario.class));
     }
@@ -71,7 +72,7 @@ class ComentarioServiceTest {
                 RecursoNaoEncontradoException.class,
                 () -> comentarioService.adicionar(
                         99L,
-                        new ComentarioRequest("Teste")
+                        new ComentarioRequest("Teste", "João")
                 )
         );
 
@@ -87,6 +88,7 @@ class ComentarioServiceTest {
 
         Comentario comentario = new Comentario();
         comentario.setTexto("Chamado em análise");
+        comentario.setAutor("Maria");
         comentario.setChamado(chamado);
 
         when(chamadoRepository.findById(1L))

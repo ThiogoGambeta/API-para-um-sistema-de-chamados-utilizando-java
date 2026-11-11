@@ -82,3 +82,47 @@ Na última execução foram realizados 12 testes com sucesso.
 Thiogo Antonio Gambeta
 
 Engenharia de Software - Univille
+
+
+## Rotas adicionais
+
+- `GET /clientes/{id}/chamados` - lista os chamados de um cliente.
+- `POST /chamados/{id}/comentarios` - recebe `texto` e `autor` no JSON.
+
+Exemplo de comentário:
+
+```json
+{ "texto": "Chamado em análise", "autor": "João" }
+```
+
+## Diagramas simples
+
+Fluxo de uma requisição:
+
+```mermaid
+sequenceDiagram
+    participant U as Usuário
+    participant C as Controller
+    participant S as Service
+    participant R as Repository
+    participant B as H2
+    U->>C: Requisição HTTP
+    C->>S: Executa operação
+    S->>R: Consulta ou salva
+    R->>B: SQL
+    B-->>R: Resultado
+    R-->>S: Dados
+    S-->>C: DTO
+    C-->>U: Resposta HTTP
+```
+
+Relacionamentos principais:
+
+```mermaid
+erDiagram
+    CLIENTE ||--o{ CHAMADO : abre
+    CATEGORIA ||--o{ CHAMADO : classifica
+    TECNICO o|--o{ CHAMADO : atende
+    CHAMADO ||--o{ COMENTARIO : possui
+    CHAMADO ||--o{ HISTORICO_CHAMADO : registra
+```

@@ -15,6 +15,9 @@ public class Comentario {
     @Column(nullable = false, length = 2000)
     private String texto;
 
+    @Column(nullable = false, length = 120)
+    private String autor;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime dataCriacao;
 
@@ -42,6 +45,14 @@ public class Comentario {
 
     public void setTexto(String texto) {
         this.texto = texto;
+    }
+
+    public String getAutor() {
+        return autor;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
     }
 
     public LocalDateTime getDataCriacao() {

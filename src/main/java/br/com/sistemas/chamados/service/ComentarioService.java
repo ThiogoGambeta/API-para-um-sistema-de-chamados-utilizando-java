@@ -39,6 +39,7 @@ public class ComentarioService {
         Comentario comentario = new Comentario();
 
         comentario.setTexto(request.texto());
+        comentario.setAutor(request.autor());
         comentario.setChamado(chamado);
 
         Comentario salvo = comentarioRepository.save(comentario);
@@ -76,6 +77,7 @@ public class ComentarioService {
         return new ComentarioResponse(
                 comentario.getId(),
                 comentario.getTexto(),
+                comentario.getAutor(),
                 comentario.getDataCriacao(),
                 comentario.getChamado().getId()
         );
